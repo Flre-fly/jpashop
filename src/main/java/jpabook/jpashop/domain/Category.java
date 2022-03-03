@@ -1,12 +1,10 @@
 package jpabook.jpashop.domain;
 
+import jpabook.jpashop.domain.item.Item;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +19,21 @@ public class Category {
 
     private String name;
 
-    private List<Category> parent = new ArrayList<Category>();
+    @ManyToMany
+    @JoinTable(name = "category_item",
+        joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name="item_id")
+    )
+    private List<Item> items = new ArrayList<>();
 
-    private List<Category> child = new ArrayList<Category>();
+    @ManyToOne
+    @JoinColumn(name = "parend_id")
+    private Category parent;
+
+    @OneToMany
+    @JoinColumn(name = "parent")
+    private List<Category> child = new ArrayList<>();
 
 
 }
+//ok
