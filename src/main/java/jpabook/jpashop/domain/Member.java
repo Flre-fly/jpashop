@@ -25,7 +25,5 @@ public class Member {
     @Embedded
     private Address address;
 
-    @OneToOne
-    private Delivery delivery;
 }
 //ok

@@ -30,10 +30,6 @@ public class Category {
     @JoinColumn(name = "parend_id")
     private Category parent;
 
-    @OneToMany
-    @JoinColumn(name = "parent")
-    private List<Category> child = new ArrayList<>();
-
 
 }
 //ok
