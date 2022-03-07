@@ -21,7 +21,8 @@ public class Address {
 
     }
 
-    public Address() {
+    //public 보단 protected가 조금 더 안전
+    protected Address() {
 
     }
 }
