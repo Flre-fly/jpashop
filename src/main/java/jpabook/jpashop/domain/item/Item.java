@@ -1,6 +1,7 @@
 package jpabook.jpashop.domain.item;
 
 import jpabook.jpashop.domain.Category;
+import jpabook.jpashop.domain.exception.NotEnoughStockException;
 import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +19,7 @@ public abstract class Item {
     @Id
     @Generated
     @Column(name="item_id")
-    private long id;
+    private Long id;
 
     private String name;
 
@@ -29,14 +30,16 @@ public abstract class Item {
 
     private int stockQuantity;
 
-    public int add(int x){
+    public int addStock(int x){
         stockQuantity += x;
         return stockQuantity;
     }
-    public int min(int x){
-        if(stockQuantity > 0){
-            stockQuantity -= x;
+    public int minStock(int x){
+        int restStock = stockQuantity - x;
+        if(restStock < 0){
+            throw new NotEnoughStockException("need more sotkck");
         }
+        stockQuantity = restStock;
         return stockQuantity;
     }
 

@@ -13,7 +13,11 @@ public class ItemRepository {
     private final EntityManager em;
 
     public Long save(Item item){
-        em.persist(item);
+        if (item.getId() == null) {
+            em.persist(item);
+        } else {
+            em.merge(item);
+        }
         return item.getId();
     }
     public Item findById(Long id){
