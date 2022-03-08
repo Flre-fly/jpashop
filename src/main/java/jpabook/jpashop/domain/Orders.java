@@ -1,6 +1,8 @@
 package jpabook.jpashop.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,6 +13,7 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Orders {
     @Id
     @GeneratedValue
@@ -52,7 +55,7 @@ public class Orders {
     }
 
     //주문하는 메서드 == 정적 팩토리 메서드로 static으로 선언한다
-    public static void addOrder(Member member, Delivery delivery, OrderItem... orderItems){
+    public static Orders createOrder(Member member, Delivery delivery, OrderItem... orderItems){
         Orders order = new Orders();
         //어떤 회원이 주문하는지 배달지는 어디인지 주문하는 아이템이 무엇인지는 매번 달라지니까 이것들을 매개변수로 삼은거야
         order.setMember(member);
@@ -61,6 +64,7 @@ public class Orders {
         for (OrderItem orderItem : orderItems){
             order.addOrderItem(orderItem);
         }
+        return order;
     }
     //주문 취소하는 메서드
     public Long cancelOrder(){
