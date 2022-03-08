@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+        #애플리케이션 실행시점에 내가 가지고있는 table을 모두 지우고 다시 생성하는 것
+      ddl-auto: create
+    properties:
+      hibernate:
+            #show-sql: true -> 얘는 sql을 systemout으로 보여주는거다.. 운영하기 위해서는 아래와 같이 log로 보여주어야한다.
+        format_sql: true
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.type: trace
