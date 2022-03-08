@@ -29,6 +29,26 @@ public abstract class Item {
 
     private int stockQuantity;
 
+    public int add(int x){
+        stockQuantity += x;
+        return stockQuantity;
+    }
+    public int min(int x){
+        if(stockQuantity > 0){
+            stockQuantity -= x;
+        }
+        return stockQuantity;
+    }
+
+    public Item update(Item item){
+        this.name = item.name;
+        this.categories = item.categories;
+        this.price = item.price;
+        this.stockQuantity = item.stockQuantity;
+
+        return this;
+    }
+
 
 }
 //ok
