@@ -1,6 +1,7 @@
 package jpabook.jpashop.service;
 
 import jpabook.jpashop.domain.*;
+import jpabook.jpashop.domain.exception.NotEnoughStockException;
 import jpabook.jpashop.domain.item.Book;
 import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.repository.ItemRepository;
@@ -59,16 +60,54 @@ public class OrderServiceTest {
     }
     @Test
     public void cancel(){
+        //======주문======
         //given
+        Item item = new Book();
+        item.setStockQuantity(10);
+        item.setName("책1");
+        item.setPrice(10000);
+        itemRepository.save(item);
+
+
+        Member member = new Member();
+        member.setName("minji");
+        member.setAddress(new Address("전주시", "길이름", "zipcode"));
+        memberRepository.save(member);
+
+        int count = 2;
+        Long orderId = orderService.order(member.getId(), item.getId(), count);
+
+        //======주문끝======
         //when
+        orderService.cancel(orderId);
         //then
+        Assertions.assertEquals(orderRepository.findById(orderId).getStatus(), OrderStatus.Cancel);
+        //주문 취소한 만큼 재고가 증가해야한다
+        Assertions.assertEquals(item.getStockQuantity(), 10);
+
 
     }
-    @Test
+    @Test(expected = NotEnoughStockException.class)
     public void exceedQuantity(){
         //given
+        Item item = new Book();
+        item.setStockQuantity(10);
+        item.setName("책1");
+        item.setPrice(10000);
+        itemRepository.save(item);
+
+
+        Member member = new Member();
+        member.setName("minji");
+        member.setAddress(new Address("전주시", "길이름", "zipcode"));
+        memberRepository.save(member);
+
+        int count = 11;//초과
+        //======주문끝======
         //when
+        Long orderId = orderService.order(member.getId(), item.getId(), count);
         //then
+        Assertions.fail("재고 수량 부족 예외가 발생해야 한다.");
 
     }
 

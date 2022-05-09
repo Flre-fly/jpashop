@@ -29,6 +29,7 @@ public class OrderService {
 
         //배송정보는 고객의 기본 배송지로 설정하기
         Delivery delivery = new Delivery();
+        delivery.setStatus(DeliveryStatus.READY);
         delivery.setAddress(member.getAddress());
         //주문상품들을 생성한다
         OrderItem orderItem = OrderItem.createOrderItem(item, count, item.getPrice());

@@ -37,7 +37,7 @@ public abstract class Item {
     public int minStock(int x){
         int restStock = stockQuantity - x;
         if(restStock < 0){
-            throw new NotEnoughStockException("need more sotkck");
+            throw new NotEnoughStockException("need more 재고");
         }
         stockQuantity = restStock;
         return stockQuantity;
