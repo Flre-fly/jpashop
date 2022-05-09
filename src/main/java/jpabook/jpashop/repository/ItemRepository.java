@@ -13,6 +13,8 @@ public class ItemRepository {
     private final EntityManager em;
 
     public Long save(Item item){
+        //id 가 없으면 신규로 보고 persist() 실행
+        //id 가 있으면 이미 데이터베이스에 저장된 엔티티를 수정한다고 보고, merge() 를 실행 그냥 대충 저장한다 정도로만 생각한다
         if (item.getId() == null) {
             em.persist(item);
         } else {

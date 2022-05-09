@@ -1,9 +1,6 @@
 package jpabook.jpashop.service;
 
-import jpabook.jpashop.domain.Delivery;
-import jpabook.jpashop.domain.Member;
-import jpabook.jpashop.domain.OrderItem;
-import jpabook.jpashop.domain.Orders;
+import jpabook.jpashop.domain.*;
 import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.repository.ItemRepository;
 import jpabook.jpashop.repository.MemberRepository;
@@ -24,7 +21,7 @@ public class OrderService {
 
     //주문하는 메서드를 만든다.. 주문은 한번에 하나의 상품을 주문할 수 있다
     @Transactional
-    public void order(Long memberId, Long itemId, int count){
+    public Long order(Long memberId, Long itemId, int count){
         //그냥 엔티티에 있는 order만 하면 되는게 아니다
         Member member = memberRepository.findById(memberId);
         Item item = itemRepository.findById(itemId);
@@ -38,8 +35,11 @@ public class OrderService {
 
         //주문을 생성한다
         Orders order = Orders.createOrder(member, delivery, orderItem);
+        order.setStatus(OrderStatus.Order);
         //주문을 저장한다
         orderRepository.save(order);
+
+        return order.getId();
     }
 
     @Transactional
